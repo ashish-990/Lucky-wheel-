@@ -105,7 +105,7 @@
         <div class="wallet" id="walletDisplay">Wallet: ₹0</div>
         <button class="btn btn-primary" onclick="scrollToSection('wheelSection')">Spin Game</button>
         <button class="btn btn-primary" onclick="scrollToSection('withdraw')">Withdraw</button>
-        <button class="btn btn-accent pulse" onclick="openTelegram()">24/7 Customer Support</button>
+        <button class="btn btn-accent pulse" onclick="openTelegramWithText()">24/7 Customer Support</button>
       </div>
     </div>
 
@@ -171,7 +171,7 @@
           </div>
           <div style="display:flex; gap:16px; flex-wrap:wrap;">
             <div style="flex:1; min-width:260px;">
-              <p>Apne account details bhar kar withdraw request bhejo. Email automatically draft hoga.</p>
+              <p>Apne account details bhar kar withdraw request bhejo. Email draft automatically khulega.</p>
               <div class="form-group">
                 <label>Naam</label>
                 <input class="input" id="name" placeholder="Apna naam likho" />
@@ -194,7 +194,7 @@
               </div>
               <button class="submit" id="withdrawSubmit">Submit Withdrawal</button>
               <div id="withdrawMsg"></div>
-              <div class="small">Email draft me sab details jayengi. Agar backend chahiye to batao.</div>
+              <div class="small">Email draft me sab details jayengi. Backend chahiye to bolo.</div>
             </div>
             <div style="flex:1; min-width:160px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;">
               <img src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif" alt="withdraw" style="max-width:160px; border-radius:12px;" />
@@ -231,7 +231,7 @@
       document.getElementById("userIDDisplay").textContent = "ID: " + id;
     }
 
-    // segments
+    // segments definition
     const segments = [
       { label: "₹1", value: 1, type: "win" },
       { label: "Double", value: null, type: "double" },
@@ -248,12 +248,13 @@
       lose: "https://i.gifer.com/4V0K.gif"
     };
 
+    // ad links
     const ads = [
       "https://dreadfulrulingextension.com/qegspyfiv?key=4ded15ec8272197c211924274a130a47",
       "https://dreadfulrulingextension.com/w1iw3senp?key=6183f7fe0d044a3b26e4faa96f8a4b0a",
       "https://dreadfulrulingextension.com/wv7n729zu?key=dfc9a55b32b16c9c2a12087ddd3ceaa6",
       "https://dreadfulrulingextension.com/ct8rjb02pj?key=1c3aea89b58347b73d58ac51a2e5e36b",
-      "https://dreadfulrulingextension.com/q0j8kbehyt?key=61c687daba6d7428d9dce44bff654289",
+      "https://dreadfulrulingextension.com/q0j8kbehyt?key=61c687daba6d7428d9ce44bff654289",
       "https://dreadfulrulingextension.com/g4dg8f3k9w?key=45457f28d2902a359b61ae4bca6eb4a7",
       "https://dreadfulrulingextension.com/j9gse5sbnd?key=00eabd4cdb7359b2f12f1a9916a6e125",
       "https://dreadfulrulingextension.com/zyfjy0nj?key=7e308c86875a89538f55e40ca9ee239e",
@@ -269,7 +270,7 @@
       "https://dreadfulrulingextension.com/acdr1xu89?key=1c282832a44d6f97b59eff8da6f8e72e"
     ];
 
-    // DOM
+    // DOM refs
     const walletDisplay = document.getElementById("walletDisplay");
     const walletSmall = document.getElementById("walletSmall");
     const cashoutBar = document.getElementById("cashoutBar");
@@ -330,30 +331,31 @@
         wheelEl.appendChild(div);
       });
       container.appendChild(wheelEl);
-      window._wheelEl=wheelEl;
+      window._wheelEl = wheelEl;
     }
 
     function pickSegment(){ const idx=Math.floor(Math.random()*segments.length); return { segment: segments[idx], index: idx }; }
 
-    let spinning=false;
-    const autoOpenAdAfterSpin=false;
+    let spinning = false;
+    const autoOpenAdAfterSpin = true;
+
     spinBtn.addEventListener("click", ()=>{
       if(spinning) return;
-      spinning=true;
-      spinBtn.disabled=true;
+      spinning = true;
+      spinBtn.disabled = true;
       watchBtn.style.display="none";
-      const { segment,index }=pickSegment();
-      const fullRotations=5;
-      const sliceAngle=360/segments.length;
-      const targetDeg=360*fullRotations + (index*sliceAngle) + sliceAngle/2;
-      const wheelEl=window._wheelEl;
+      const { segment,index } = pickSegment();
+      const fullRotations = 5;
+      const sliceAngle = 360/segments.length;
+      const targetDeg = 360 * fullRotations + (index * sliceAngle) + sliceAngle/2;
+      const wheelEl = window._wheelEl;
       if(!wheelEl){ spinning=false; spinBtn.disabled=false; return; }
       wheelEl.style.transition="transform 4s cubic-bezier(.33,.8,.35,1)";
-      wheelEl.style.transform=`rotate(${-targetDeg}deg)`;
+      wheelEl.style.transform = `rotate(${-targetDeg}deg)`;
       setTimeout(()=>{
         wheelEl.style.transition="none";
-        const normalized= targetDeg % 360;
-        wheelEl.style.transform=`rotate(${-normalized}deg)`;
+        const normalized = targetDeg % 360;
+        wheelEl.style.transform = `rotate(${-normalized}deg)`;
         handleResult(segment);
         spinning=false;
         spinBtn.disabled=false;
@@ -391,15 +393,18 @@
 
     function openNextAd(){
       const link=advanceAdIndex();
-      window.open(link,"_blank");
+      if(link) window.open(link,"_blank");
       watchBtn.style.display="none";
     }
     watchBtn.addEventListener("click", openNextAd);
 
-    // support redirect
-    function openTelegram(){ window.location.href="https://t.me/Freefiremxdealer"; }
-    goSupport.addEventListener("click",(e)=>{ e.preventDefault(); openTelegram(); });
-    supportInput.addEventListener("keypress",(e)=>{ if(e.key==="Enter") openTelegram(); });
+    // support redirect with prefill
+    function openTelegramWithText(){
+      const issue = encodeURIComponent(document.getElementById("supportInput").value || "Mujhe help chahiye");
+      window.location.href = `https://t.me/Freefiremxdealer?text=${issue}`;
+    }
+    goSupport.addEventListener("click",(e)=>{ e.preventDefault(); openTelegramWithText(); });
+    supportInput.addEventListener("keypress",(e)=>{ if(e.key==="Enter") openTelegramWithText(); });
 
     // withdraw form
     withdrawSubmit.addEventListener("click",(e)=>{
@@ -409,10 +414,4 @@
       const ifsc=document.getElementById("ifsc").value.trim();
       const phone=document.getElementById("phone").value.trim();
       const amount=parseFloat(document.getElementById("amount").value);
-      const userID= localStorage.getItem("generatedID") || makeRandomID();
-      localStorage.setItem("generatedID", userID);
-      if(!name||!account||!ifsc||!phone||!amount){
-        withdrawMsg.innerHTML='<div class="notice">Sab fields bhar do — sab required hain.</div>';
-        return;
-      }
-      if(amount <
+      const userID= localStorage.getItem("generatedID") || makeRandom
