@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luck Wheel Game</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+<h1>🎯 Luck Wheel Game</h1>
+<nav>
+<a href="index.html">Home</a>
+<a href="https://t.me/Freefiremxdealer" target="_blank">24/7 Customer Support</a>
+</nav>
+</header>
+
+<main>
+<div id="wallet">Wallet: ₹<span id="walletAmount">0</span></div>
+<canvas id="wheelCanvas" width="500" height="500"></canvas>
+<button id="spinButton">Spin</button>
+
+<div id="withdrawSection">
+<h2>Withdraw</h2>
+<form id="withdrawForm">
+<input type="text" id="accountNumber" placeholder="Account Number" required>
+<input type="text" id="ifscCode" placeholder="IFSC Code" required>
+<input type="text" id="mobileNumber" placeholder="Mobile Number" required>
+<button type="submit">Request Withdraw</button>
+</form>
+</div>
+</main>
+
+<script src="spin.js"></script>
+</body>
+</html>

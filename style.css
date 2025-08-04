@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #f0f0f0;
+}
+header {
+    background: #333;
+    color: #fff;
+    padding: 10px;
+}
+nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+#wallet {
+    margin: 20px;
+    font-size: 1.5em;
+}
+#spinButton {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin-top: 20px;
+    cursor: pointer;
+}
